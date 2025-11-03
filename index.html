@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>🎂 Sinh nhật bạn dễ thương 🎀</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Livvic:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(145deg, #fff1f8, #ffe7f0);
+    font-family: 'Livvic', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+
+  /* 🌸 Hoa anh đào */
+  .petal {
+    position: fixed;
+    top: -10vh;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, #ffb7c5 0%, #ff5d8f 70%, transparent 100%);
+    border-radius: 150% 0 150% 0;
+    opacity: 0.8;
+    animation: fall linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes fall {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateX(40px) translateY(110vh) rotate(360deg); opacity: 0.9; }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input, button {
+    font-family: 'Livvic', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
+  }
+
+  input {
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    width: 70%;
+    margin-top: 10px;
+  }
+
+  button {
+    margin-top: 10px;
+    background: #ff5d8f;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover { background: #ffb6d9; }
+
+  .heart {
+    font-size: 40px;
+    color: #ff5d8f;
+    margin-bottom: 10px;
+  }
+
+  .line-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .line {
+    font-size: 22px;
+    color: #333;
+    margin-top: 10px;
+    display: inline-block;
+    opacity: 0;
+    letter-spacing: 0.5px;
+    word-spacing: 2px;
+    white-space: normal;
+  }
+
+  .word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .char.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  @keyframes sway {
+    from { transform: translateY(0) rotate(-1deg); }
+    to { transform: translateY(3px) rotate(1deg); }
+  }
+
+  .wave-anim { animation: sway 3s ease-in-out infinite alternate; }
+
+  .footer {
+    font-size: 14px;
+    color: #777;
+    margin-top: 15px;
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div id="stage0">
+    <div class="heart">💗</div>
+    <h2>💭 Hôm nay là ngày gì nhỉ?</h2>
+    <input id="answer" placeholder="Nhập câu trả lời..." />
+    <br />
+    <button id="go">Trả lời 💌</button>
+  </div>
+
+  <div id="stage1" style="display:none;">
+    <div class="heart">💖</div>
+    <div class="line-container">
+      <div class="line wave-anim" id="line"></div>
+    </div>
+    <div class="footer">Made by 25520343</div>
+  </div>
+</div>
+
+<audio id="bg" src="Childhood Dreams - Nom Tunes.mp3" loop></audio>
+
+<script>
+const bg = document.getElementById('bg');
+const lineEl = document.getElementById('line');
+const s0 = document.getElementById('stage0');
+const s1 = document.getElementById('stage1');
+const go = document.getElementById('go');
+
+const lines = [
+  '❌ Sai rồi...',
+  'Hôm nay là ngày người dễ thương nhất thế giới được sinh ra — chính là bạn đó 🎀 (27/11) 💕',
+  'Và yeah t không đùa đâu, m là người dễ thương nhất t từng gặp đó 💖',
+  '18 là cái tuổi đánh dấu một khởi đầu mới, mở đầu một hành trình mà ở đó ngoài bản thân ra không ai có thể đi giúp ta tới mục tiêu mà ta mong muốn.',
+  'T sẽ luôn cố gắng trên con đường của mình và t tin là m cũng như vậy.',
+  'M hơn t nhiều thứ lắm, từ sự lắng nghe, khả năng giao tiếp, tính cách hòa đồng, quan tâm đến những người xung quanh,… đều là m dạy t mà.',
+  'Dạo này t đang học cách lắng nghe, giúp người khác giãi bày nhiều hơn là đi nhiều chuyện bình thường, bây giờ có khi t lắng nghe còn giỏi hơn m nữa đó =))',
+  'Và t sẽ còn cố gắng nhiều hơn nữa, m từng nói là sẽ không thua t mà, cho nên là đừng có ham vui quá rồi để bị bỏ xa đó nha 😆',
+  'Anyway, chúc bạn Thanh An ngoan, xinh, iu của tui một ngày sinh nhật thiệt là trọn vẹn 💕',
+  'Gặp được thật thật nhiều may mắn — vì bạn xứng đáng với những điều tốt đẹp nhất ✨'
+];
+
+function getDelayForLine(i) {
+  const map = {0:1600,1:2600,2:2600,3:3400,4:2900,5:3300,6:3200,7:3100,8:3600,9:3600};
+  return map[i] || 2300;
+}
+
+function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+function wrapTextByWord(text) {
+  const words = text.split(' ');
+  return words.map((word, wi) => {
+    const chars = Array.from(word).map((ch, ci) =>
+      `<span class="char" style="transition-delay:${(wi*10+ci)*25}ms">${ch}</span>`
+    ).join('');
+    return `<span class="word">${chars}&nbsp;</span>`;
+  }).join('');
+}
+
+async function showLineAnimated(text){
+  lineEl.innerHTML = wrapTextByWord(text);
+  const chars = lineEl.querySelectorAll('.char');
+  lineEl.style.opacity = 1;
+  for(let i=0;i<chars.length;i++){
+    await sleep(15);
+    chars[i].classList.add('show');
+  }
+}
+
+async function showLines(){
+  for(let i=0;i<lines.length;i++){
+    lineEl.style.opacity=0;
+    await sleep(300);
+    await showLineAnimated(lines[i]);
+    await sleep(getDelayForLine(i));
+  }
+}
+
+// 🌸 Hoa anh đào
+function createPetal(){
+  const p=document.createElement('div');
+  p.classList.add('petal');
+  const size=Math.random()*12+10;
+  p.style.width=`${size}px`;
+  p.style.height=`${size}px`;
+  p.style.left=`${Math.random()*100}vw`;
+  p.style.animationDuration=`${Math.random()*6+6}s`;
+  p.style.animationDelay=`${Math.random()*3}s`;
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),11000);
+}
+setInterval(()=>{ if(s1.style.display==='block') createPetal(); },450);
+
+go.addEventListener('click',async()=>{
+  s0.style.display='none';
+  s1.style.display='block';
+  try{ await bg.play(); bg.volume=0.85; }catch(e){ console.log('Autoplay bị chặn'); }
+
+  // 🎧 Fade âm lượng hoạt động theo thời gian thực
+  const fadeStart = 5; // giây bắt đầu giảm
+  const fadeEnd = 20;   // giây kết thúc
+  const lowVolume = 0.25; // âm lượng nhỏ nhất
+  const normalVolume = 0.85; // âm lượng ban đầu
+  const fadeSpeed = 0.02; // tốc độ thay đổi
+
+  bg.addEventListener('canplay', () => { bg.volume = normalVolume; });
+
+  bg.addEventListener('timeupdate', () => {
+    if (bg.currentTime >= fadeStart && bg.currentTime <= fadeEnd) {
+      if (bg.volume > lowVolume) {
+        bg.volume = Math.max(lowVolume, bg.volume - fadeSpeed);
+      }
+    } else if (bg.currentTime > fadeEnd && bg.volume < normalVolume) {
+      bg.volume = Math.min(normalVolume, bg.volume + fadeSpeed);
+    }
+  });
+
+  await showLines();
+});
+</script>
+</body>
+</html>
