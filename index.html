@@ -246,7 +246,7 @@ go.addEventListener('click',async()=>{
   s1.style.display='block';
   try{ await bg.play(); bg.volume=0.85; }catch(e){ console.log('Autoplay bị chặn'); }
 
-  // 🎧 Fade âm lượng mượt
+  /* 🎧 Fade âm lượng mượt
   const fadeStart = 5;
   const fadeEnd = 20;
   const lowVolume = 0.25;
@@ -267,7 +267,7 @@ go.addEventListener('click',async()=>{
     } else if (bg.currentTime > fadeEnd && bg.volume !== normalVolume) {
       bg.volume = normalVolume;
     }
-  });
+  }); */
 
   await showLines();
 });
