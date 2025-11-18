@@ -50,7 +50,7 @@
   }
 
   input, button {
-    font-family: 'Livvic', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
+    font-family: 'Livvic', sans-serif;
   }
 
   input {
@@ -74,7 +74,6 @@
     cursor: pointer;
     transition: background 0.3s;
   }
-
   button:hover { background: #ffb6d9; }
 
   .heart {
@@ -120,21 +119,13 @@
     transition: opacity 0.35s ease, transform 0.35s ease;
   }
 
-  @keyframes sway {
-    from { transform: translateY(0) rotate(-1deg); }
-    to { transform: translateY(3px) rotate(1deg); }
+  /* fade-out mượt */
+  @keyframes fadeAway {
+    0% { opacity: 1; filter: blur(0px); }
+    100% { opacity: 0; filter: blur(5px); }
   }
-
-  .wave-anim { animation: sway 3s ease-in-out infinite alternate; }
-
-  /* ✨ Hiệu ứng wipe trái -> phải */
-  @keyframes wipeOut {
-    0% { clip-path: inset(0 0 0 0); opacity: 1; }
-    100% { clip-path: inset(0 0 0 100%); opacity: 0; }
-  }
-
-  .wipe-out {
-    animation: wipeOut 0.4s ease forwards;
+  .fade-out {
+    animation: fadeAway 1.2s ease forwards;
   }
 
   .footer {
@@ -158,7 +149,7 @@
   <div id="stage1" style="display:none;">
     <div class="heart">🎀</div>
     <div class="line-container">
-      <div class="line wave-anim" id="line"></div>
+      <div class="line" id="line"></div>
     </div>
     <div class="footer">Made by 25520343</div>
   </div>
@@ -175,11 +166,12 @@ const go = document.getElementById('go');
 
 const lines = [
   '❌ Sai rồi...',
-  'Hôm nay là ngày người dễ thương nhất thế giới được sinh ra đó nha :>',
+  'Hôm nay là ngày người dễ thương nhất thế giới được sinh ra đó nha 🥳',
   'Và yeah t không đùa đâu, m là người dễ thương nhất t từng gặp đó',
   '18 là cái tuổi đánh dấu một khởi đầu mới, mở đầu một hành trình mà ở đó ngoài bản thân ra không ai có thể đi giúp ta tới mục tiêu mà ta mong muốn.',
   'T sẽ luôn cố gắng trên con đường của mình và t tin là m cũng như vậy.',
-  'M hơn t nhiều thứ lắm, từ sự lắng nghe, khả năng giao tiếp, tính cách hòa đồng, quan tâm đến những người xung quanh,… đều là m dạy t mà.',
+  'M hơn t nhiều thứ lắm, từ sự lắng nghe, khả năng giao tiếp, tính cách hòa đồng, quan tâm đến những người xung quanh,… đều là m dạy t mà',
+  'Mình giỏi theo cách tự nhiên của mình cho nên đừng có nghĩ mình không giỏi bằng t nữa nha cô nương',
   'Dạo này t đang học cách lắng nghe, giúp người khác giãi bày nhiều hơn là đi nhiều chuyện bình thường, bây giờ có khi t lắng nghe còn giỏi hơn m nữa đó =))',
   'Và t sẽ còn cố gắng nhiều hơn nữa, m từng nói là sẽ không thua t mà, cho nên là đừng có ham vui quá rồi để bị bỏ xa đó nha 😆',
   'Anyway, chúc bạn Thanh An ngoan, xinh, iu của tui một ngày sinh nhật thiệt là trọn vẹn 🎂',
@@ -187,38 +179,38 @@ const lines = [
 ];
 
 function getDelayForLine(i) {
-  const map = {0:3000,1:5000,2:5000,3:12000,4:6000,5:10000,6:10000,7:10000,8:8000,9:3600};
-  return map[i] || 2300;
+  const map = {0:2500,1:5000,2:5000,3:9000,4:6000,5:8000,6:7000,7:9000,8:8000,9:6000,10:3000};
+  return map[i] || 2500;
 }
 
-function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 function wrapTextByWord(text) {
-  const words = text.split(' ');
-  return words.map((word, wi) => {
-    const chars = Array.from(word).map((ch, ci) =>
-      `<span class="char" style="transition-delay:${(wi*10+ci)*15}ms">${ch}</span>`
+  return text.split(' ').map((word, wi) => {
+    const chars = [...word].map((ch, ci) =>
+      `<span class="char" style="transition-delay:${(wi*10+ci)*22}ms">${ch}</span>`
     ).join('');
     return `<span class="word">${chars}&nbsp;</span>`;
   }).join('');
 }
 
-async function showLineAnimated(text){
+async function showLineAnimated(text) {
   lineEl.innerHTML = wrapTextByWord(text);
   const chars = lineEl.querySelectorAll('.char');
   lineEl.style.opacity = 1;
-  for(let i=0;i<chars.length;i++){
-    await sleep(7);
+
+  for (let i = 0; i < chars.length; i++) {
+    await sleep(12);
     chars[i].classList.add('show');
   }
 }
 
-async function showLines(){
-  for(let i=0;i<lines.length;i++){
+async function showLines() {
+  for (let i = 0; i < lines.length; i++) {
     if (i > 0) {
-      lineEl.classList.add('wipe-out');
-      await sleep(400); // thời gian wipe
-      lineEl.classList.remove('wipe-out');
+      lineEl.classList.add('fade-out');
+      await sleep(1200);
+      lineEl.classList.remove('fade-out');
       lineEl.innerHTML = '';
     }
     await showLineAnimated(lines[i]);
@@ -226,48 +218,26 @@ async function showLines(){
   }
 }
 
-// 🌸 Hoa anh đào
-function createPetal(){
-  const p=document.createElement('div');
+function createPetal() {
+  const p = document.createElement('div');
   p.classList.add('petal');
-  const size=Math.random()*12+10;
-  p.style.width=`${size}px`;
-  p.style.height=`${size}px`;
-  p.style.left=`${Math.random()*100}vw`;
-  p.style.animationDuration=`${Math.random()*6+6}s`;
-  p.style.animationDelay=`${Math.random()*3}s`;
+  const size = Math.random()*12+10;
+  p.style.width = `${size}px`;
+  p.style.height = `${size}px`;
+  p.style.left = `${Math.random()*100}vw`;
+  p.style.animationDuration = `${Math.random()*6+6}s`;
+  p.style.animationDelay = `${Math.random()*3}s`;
   document.body.appendChild(p);
   setTimeout(()=>p.remove(),11000);
 }
 setInterval(()=>{ if(s1.style.display==='block') createPetal(); },450);
 
-go.addEventListener('click',async()=>{
-  s0.style.display='none';
-  s1.style.display='block';
-  try{ await bg.play(); bg.volume=0.85; }catch(e){ console.log('Autoplay bị chặn'); }
+go.addEventListener('click', async()=>{
+  s0.style.display = 'none';
+  s1.style.display = 'block';
 
-  /* 🎧 Fade âm lượng mượt
-  const fadeStart = 5;
-  const fadeEnd = 20;
-  const lowVolume = 0.25;
-  const normalVolume = 0.85;
-  const fadeDuration = 2.5;
-
-  bg.addEventListener('canplay', () => { bg.volume = normalVolume; });
-
-  bg.addEventListener('timeupdate', () => {
-    if (bg.currentTime >= fadeStart && bg.currentTime < fadeStart + fadeDuration) {
-      const progress = (bg.currentTime - fadeStart) / fadeDuration;
-      bg.volume = normalVolume - (normalVolume - lowVolume) * progress;
-    } else if (bg.currentTime >= fadeStart + fadeDuration && bg.currentTime < fadeEnd - fadeDuration) {
-      bg.volume = lowVolume;
-    } else if (bg.currentTime >= fadeEnd - fadeDuration && bg.currentTime <= fadeEnd) {
-      const progress = (bg.currentTime - (fadeEnd - fadeDuration)) / fadeDuration;
-      bg.volume = lowVolume + (normalVolume - lowVolume) * progress;
-    } else if (bg.currentTime > fadeEnd && bg.volume !== normalVolume) {
-      bg.volume = normalVolume;
-    }
-  }); */
+  try { await bg.play(); bg.volume = 0.85; }
+  catch(e){}
 
   await showLines();
 });
